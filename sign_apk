@@ -1,0 +1,24 @@
+#!/bin/bash
+
+if [ "$#" -ne 1 ];then
+    echo "Usage: $0 <apk>"
+    exit 1
+else
+    APK=$1
+fi
+
+KEYSTORE_PATH="$HOME/my-release-key.keystore"
+
+if [ ! -f "$KEYSTORE_PATH" ];then 
+    echo "[+] Creating keystore file to $KEYSTORE_PATH..."
+    keytool -genkey -v -keystore $KEYSTORE_PATH -alias alias_name \
+-keyalg RSA -keysize 2048 -validity 10000
+fi
+
+echo "[+] Signing apk..." 
+jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore $KEYSTORE_PATH $APK alias_name
+
+echo "[+] Verifing apk signature..."
+jarsigner -verify -verbose -certs $APK
+
+echo "[+] Done."

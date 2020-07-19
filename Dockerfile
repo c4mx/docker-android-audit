@@ -6,11 +6,14 @@ ENV JDCMD_VERSION="1.1.0" \
     JADX_VERSION="1.1.0"
 
 RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y -qq --no-install-recommends \
+    default-jdk \
     zsh \
     curl \
     wget \
     git \
+    host \
     unzip \
+    less \
     apktool \ 
     dex2jar \
     jd-gui \
